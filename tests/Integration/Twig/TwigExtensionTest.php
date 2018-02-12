@@ -25,7 +25,7 @@ class TwigExtensionTest extends TwigExtensionTestCase
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function should_render_twig()
+    public function should_render_twig_view_with_specified_widget()
     {
         $twig = $this->createTwigEnvironment([
             'templatesDir' => $this->createTemplateDirectoryPath(),
@@ -35,7 +35,9 @@ class TwigExtensionTest extends TwigExtensionTestCase
             ],
         ]);
 
+        $result = $twig->render('integration/widget.html.twig');
 
-        $this->assertContains('15', $twig->render('integration/widget.html.twig'));
+        $this->assertContains('Widget refresh interval is 30 at position top', $result);
+        $this->assertContains('Widget `SaulsComponentWidgetStubsFaultyWidget` not found or is not registered.', $result);
     }
 }
