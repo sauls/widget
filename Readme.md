@@ -1,10 +1,12 @@
 # Sauls Widget
 
-[![Build Status](https://travis-ci.org/sauls/helpers.svg?branch=master)](https://travis-ci.org/sauls/helpers)
-[![Latest Stable Version](https://poser.pugx.org/sauls/helpers/v/stable)](https://packagist.org/packages/sauls/helpers)
-[![Total Downloads](https://poser.pugx.org/sauls/helpers/downloads)](https://packagist.org/packages/sauls/helpers)
-[![Coverage Status](https://coveralls.io/repos/github/sauls/helpers/badge.svg?branch=master)](https://coveralls.io/github/sauls/helpers?branch=master)
-[![License](https://poser.pugx.org/sauls/helpers/license)](https://packagist.org/packages/sauls/helpers)
+[![Build Status](https://travis-ci.org/sauls/widget.svg?branch=master)](https://travis-ci.org/sauls/widget)
+[![Latest Stable Version](https://poser.pugx.org/sauls/widget/v/stable)](https://packagist.org/packages/sauls/widget)
+[![Total Downloads](https://poser.pugx.org/sauls/widget/downloads)](https://packagist.org/packages/sauls/widget)
+[![Coverage Status](https://coveralls.io/repos/github/sauls/widget/badge.svg?branch=master)](https://coveralls.io/github/sauls/widget?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sauls/widget/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sauls/widget/?branch=master)
+[![License](https://poser.pugx.org/sauls/widget/license)](https://packagist.org/packages/sauls/widget)
+
 
 Simple but powerful widget system for PHP
 
