@@ -19,6 +19,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
+  - mkdir -vp build/logs
   - composer self-update
 
 install:
