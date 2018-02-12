@@ -1,0 +1,1 @@
+This template variable $var value is <?php echo $var; ?>
