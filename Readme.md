@@ -32,22 +32,41 @@ $ composer require sauls/widget
 
 ### What is this all about?
 
+This library allows you to crate a standalone, reusable widgets that can be highly customizable for better user-interfaces.  
+
+### What it lacks?
+
+* **Assets** - At the moment it does not have a `js` and `css` management support. Maybe your created widgets depend on custom styles or has additional javascript code, this lack of support is planned in future releases.
+
+* **Integrations** - At the moment this library has only `twig` template engine integration.
+
+### What is a Widget?
+
+Widget as mentioned above is a standalone, reusable and highly customizable class that can be used anywhere in the view multiple times with different configurations. There is two types of widgets:
+
+* Widget
+* ViewWidget 
+
 ### What is a View? 
+
+**View** - is a class that knows how to render widget output. 
+
+### Default Views
+
+* NullView 
+* StringView
+* PhpFileView
+* TwigView
 
 ## Documentation
 
 ### How-to`s
 
-* How to create a widget
-* How to add own dependencies to widget
-* How to create a view depended widget
-
-### Default Views
-
-* NullView
-* StringView
-* PhpFileView
-* TwigView
+* [How to create a widget?](/doc/how-to/create-widget.md)
+* [How to create a view widget?](/doc/how-to/create-view-widget.md)
+* How to add own dependencies to widget?
+* How to create widget containing other widgets?
+* How to setup and use widget factory
 
 ### Integrations
 
