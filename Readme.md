@@ -29,8 +29,6 @@ $ composer require sauls/widget
 }
 ```
 
-> Keep in mind that this documentation is work in progress as it takes some time to properly write it. At the moment if you don't know where to start looking at the tests folder would be a good start.
-
 ## FAQ
 
 ### What is this all about?
@@ -62,6 +60,8 @@ Widget as mentioned above is a standalone, reusable and highly customizable clas
 * TwigView
 
 ## Documentation
+
+> Keep in mind that this documentation is work in progress as it takes some time to properly write it. At the moment if you don't know where to start looking at the tests folder would be a good start.
 
 ### How-to`s
 
