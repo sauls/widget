@@ -12,7 +12,7 @@ Simple but powerful widget system for PHP
 
 ## Requirements
 
-PHP >= 7.1
+PHP >= 7.2
 
 ## Installation
 
@@ -28,6 +28,9 @@ $ composer require sauls/widget
     }
 }
 ```
+
+> Keep in mind that this documentation is work in progress as it takes some time to properly write it. At the moment if you don't know where to start looking at the tests folder would be a good start.
+
 ## FAQ
 
 ### What is this all about?
