@@ -15,7 +15,7 @@ Creating own view lets define default `viewFile` option.
 ```php
 class MyViewWidget extends ViewWidget
 {
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

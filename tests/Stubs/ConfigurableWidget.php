@@ -13,15 +13,14 @@
 namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\Widget;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 class ConfigurableWidget extends Widget
 {
     /**
-     * @throws \Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @throws \Exception
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefined(['interval', 'position'])

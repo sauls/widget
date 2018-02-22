@@ -12,10 +12,10 @@
 
 namespace Sauls\Component\Widget;
 
+use function Sauls\Component\Helper\define_object;
 use Sauls\Component\Collection\ArrayCollection;
 use Sauls\Component\Collection\Collection;
-use function Sauls\Component\Helper\configure_object;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 abstract class Widget implements WidgetInterface
 {
@@ -49,8 +49,8 @@ abstract class Widget implements WidgetInterface
             $resolver = new OptionsResolver;
             $this->configureOptions($resolver);
             $this->options = new ArrayCollection($resolver->resolve($this->resolveOptions($options)));
-            configure_object($this, $this->options->all());
-            $this->initialise();
+            define_object($this, $this->options->all());
+            $this->initialize();
         } catch (\Exception $e) {
             throw $e;
         }
@@ -60,11 +60,11 @@ abstract class Widget implements WidgetInterface
      * This method is called after all options and variables are configured
      * You can safely initialise your variables, or other logic here
      */
-    protected function initialise()
+    protected function initialize(): void
     {
     }
 
-    abstract public function configureOptions(OptionsResolver $resolver): void;
+    abstract protected function configureOptions(OptionsResolver $resolver): void;
 
     public function resolveOptions(array $options): array
     {

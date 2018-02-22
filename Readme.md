@@ -1,12 +1,11 @@
 # Sauls Widget
 
 [![Build Status](https://travis-ci.org/sauls/widget.svg?branch=master)](https://travis-ci.org/sauls/widget)
-[![Latest Stable Version](https://poser.pugx.org/sauls/widget/v/stable)](https://packagist.org/packages/sauls/widget)
-[![Total Downloads](https://poser.pugx.org/sauls/widget/downloads)](https://packagist.org/packages/sauls/widget)
-[![Coverage Status](https://coveralls.io/repos/github/sauls/widget/badge.svg?branch=master)](https://coveralls.io/github/sauls/widget?branch=master)
+[![Packagist](https://img.shields.io/packagist/v/sauls/widget.svg)](https://packagist.org/packages/sauls/widget)
+[![Total Downloads](https://img.shields.io/packagist/dt/sauls/widget.svg)](https://packagist.org/packages/sauls/widget)
+[![Coverage Status](https://img.shields.io/coveralls/github/sauls/widget.svg)](https://coveralls.io/github/sauls/widget?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sauls/widget/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sauls/widget/?branch=master)
-[![License](https://poser.pugx.org/sauls/widget/license)](https://packagist.org/packages/sauls/widget)
-
+[![License](https://img.shields.io/github/license/sauls/widget.svg)](https://packagist.org/packages/sauls/widget)
 
 Simple but powerful widget system for PHP
 
@@ -37,13 +36,13 @@ This library allows you to crate a standalone, reusable widgets that can be high
 
 ### What it lacks?
 
-* **Assets** - At the moment it does not have a `js` and `css` management support. Maybe your created widgets depend on custom styles or has additional javascript code, this lack of support is planned in future releases.
+* **Assets** - At the moment it does not have a `js` and `css` management support, but support for `js` and `css` is planned in future versions. 
 
 * **Integrations** - At the moment this library has only `twig` template engine integration.
 
 ### What is a Widget?
 
-Widget as mentioned above is a standalone, reusable and highly customizable class that can be used anywhere in the view multiple times with different configurations. There is two types of widgets:
+Widget is a standalone, reusable and highly customizable class that can be used anywhere in the view multiple times with different configurations. There is two types of widgets:
 
 * Widget
 * ViewWidget 

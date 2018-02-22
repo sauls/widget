@@ -13,20 +13,23 @@
 namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\ViewWidget;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 class SimpleViewWidget extends ViewWidget
 {
     /**
-     * @throws \Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @throws \Exception
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
             'viewFile' => 'This is a simple view widget. Hello my name is {name}',
+            'viewData' => [
+                'name' => 'noname',
+                'place' => 'noplace',
+            ],
         ]);
     }
 

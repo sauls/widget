@@ -12,13 +12,12 @@
 
 namespace Sauls\Component\Widget\Factory;
 
-use function Sauls\Component\Helper\array_get_value;
-use function Sauls\Component\Helper\array_merge;
 use Sauls\Component\Collection\Collection;
 use function Sauls\Component\Helper\array_remove_key;
-use Sauls\Component\Helper\Exception\ClassPropertyNotSetException;
+use function Sauls\Component\Helper\class_uses_trait;
 use Sauls\Component\Widget\Exception\CollectionItemNotFoundException;
 use Sauls\Component\Widget\Exception\WidgetNotFoundException;
+use Sauls\Component\Widget\Factory\Traits\WidgetFactoryAwareTrait;
 use Sauls\Component\Widget\ViewWidgetInterface;
 use Sauls\Component\Widget\WidgetInterface;
 
@@ -35,7 +34,6 @@ class WidgetFactory implements WidgetFactoryInterface
 
     /**
      * @throws WidgetNotFoundException
-     * @throws CollectionItemNotFoundException
      */
     public function create(string $name, array $options = []): WidgetInterface
     {
@@ -51,9 +49,14 @@ class WidgetFactory implements WidgetFactoryInterface
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     private function configureWidget(WidgetInterface $widget, array $options): WidgetInterface
     {
         $viewName = $this->resolveViewName($options);
+        $this->injectWidgetFactory($widget);
+
         $widget = $widget->widget($options);
 
         return $this->resolveDependencies($widget, $viewName);
@@ -66,10 +69,7 @@ class WidgetFactory implements WidgetFactoryInterface
 
     private function resolveDependencies(WidgetInterface $widget, string $viewName): WidgetInterface
     {
-        if (is_subclass_of($widget, ViewWidgetInterface::class)) {
-            $viewName = $this->viewCollection->has($viewName) ? $viewName : $this->resolveWidgetViewName($widget);
-            $widget->setView($this->viewCollection->get($viewName));
-        }
+        $this->injectView($widget, $viewName);
 
         return $widget;
     }
@@ -79,7 +79,22 @@ class WidgetFactory implements WidgetFactoryInterface
         $info = new \SplFileInfo($widget->getOption('viewFile'));
         $fileExtension = $info->getExtension();
 
-        return $this->viewCollection->has($fileExtension) ? $fileExtension : 'string';
+        return $this->viewCollection->keyExists($fileExtension) ? $fileExtension : 'string';
 
+    }
+
+    private function injectView(WidgetInterface $widget, string $viewName): void
+    {
+        if (is_subclass_of($widget, ViewWidgetInterface::class)) {
+            $viewName = $this->viewCollection->keyExists($viewName) ? $viewName : $this->resolveWidgetViewName($widget);
+            $widget->setView($this->viewCollection->get($viewName));
+        }
+    }
+
+    private function injectWidgetFactory($widget): void
+    {
+        if (class_uses_trait(\get_class($widget), WidgetFactoryAwareTrait::class)) {
+            $widget->setWidgetFactory($this);
+        }
     }
 }

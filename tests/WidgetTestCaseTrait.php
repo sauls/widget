@@ -18,7 +18,7 @@ use Sauls\Component\Widget\Stubs\DummyWidget;
 use Sauls\Component\Widget\Stubs\FaultyWidget;
 use Sauls\Component\Widget\Stubs\NamedDummyWidget;
 use Sauls\Component\Widget\Stubs\SimpleViewWidget;
-use Sauls\Component\Widget\Stubs\templates\DemoTwigWidget;
+use Sauls\Component\Widget\Stubs\DemoTwigWidget;
 use Sauls\Component\Widget\View\ViewInterface;
 use Sauls\Component\Widget\View\ViewTestCaseTrait;
 

@@ -19,13 +19,8 @@ class TwigExtensionTest extends TwigExtensionTestCase
 {
     /**
      * @test
-     *
-     * @throws PropertyNotAccessibleException
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
-    public function should_render_twig_view_with_specified_widget()
+    public function should_render_twig_view_with_specified_widget(): void
     {
         $twig = $this->createTwigEnvironment([
             'templatesDir' => $this->createTemplateDirectoryPath(),

@@ -19,7 +19,7 @@ class ViewTest extends ViewTestCase
     /**
      * @test
      */
-    public function should_render_null_view()
+    public function should_render_null_view(): void
     {
         $nullView = new NullView();
         $this->assertSame('null', $nullView->getName());
@@ -29,13 +29,19 @@ class ViewTest extends ViewTestCase
     /**
      * @test
      */
-    public function should_render_string_view()
+    public function should_render_string_view(): void
     {
         $stringView = new StringView();
         $this->assertSame('string', $stringView->getName());
         $this->assertSame('Hello World!', $stringView->render('Hello World!', []));
-        $this->assertSame('Hello MAGIC World!', $stringView->render('Hello {variable} World!', ['variable' => 'MAGIC']));
-        $this->assertSame('Hello MAGIC World! {no_var}', $stringView->render('Hello {variable} World! {no_var}', ['variable' => 'MAGIC']));
+        $this->assertSame(
+            'Hello MAGIC World!',
+            $stringView->render('Hello {variable} World!', ['variable' => 'MAGIC'])
+        );
+        $this->assertSame(
+            'Hello MAGIC World! {no_var}',
+            $stringView->render('Hello {variable} World! {no_var}', ['variable' => 'MAGIC'])
+        );
     }
 
     /**
@@ -43,7 +49,7 @@ class ViewTest extends ViewTestCase
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Missing template directories for Sauls\Component\Widget\View\PhpFileView
      */
-    public function should_render_php_file_view_with_template_directories_exception()
+    public function should_render_php_file_view_with_template_directories_exception(): void
     {
         $phpFileView = new PhpFileView();
         $phpFileView->render('test.php');
@@ -53,9 +59,8 @@ class ViewTest extends ViewTestCase
      * @test
      * @expectedException \RuntimeException
      * @expectedExceptionMessage Template test.html.php was not found.
-     * @throws \Exception
      */
-    public function should_render_php_file_view_with_template_file_not_found_exception()
+    public function should_render_php_file_view_with_template_file_not_found_exception(): void
     {
         $phpFileView = new PhpFileView([__DIR__, __DIR__.'/templates']);
         $phpFileView->render('test.html.php');
@@ -63,9 +68,8 @@ class ViewTest extends ViewTestCase
 
     /**
      * @test
-     * @throws \Exception
      */
-    public function should_render_php_file_view()
+    public function should_render_php_file_view(): void
     {
         $phpFileView = new PhpFileView([__DIR__.'/../Stubs/templates',]);
         $this->assertSame('php', $phpFileView->getName());
@@ -80,12 +84,8 @@ class ViewTest extends ViewTestCase
 
     /**
      * @test
-     *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
-    public function should_render_twig_file_view()
+    public function should_render_twig_file_view(): void
     {
         $twigView = $this->createTwigView(
             $this->createTemplateDirectoryPath(),

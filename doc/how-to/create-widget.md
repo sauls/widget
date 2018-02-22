@@ -7,7 +7,7 @@ Create your widget class and extend the `Sauls\Component\Widget` class. You will
 ```php
 class MyWidget extends Widget
 {
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
     }
 
@@ -31,7 +31,7 @@ We can slightly improve this widget by allowing to change the date format it out
 ```php
 class MyWidget extends Widget
 {
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefined(['format'])

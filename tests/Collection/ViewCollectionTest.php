@@ -28,13 +28,13 @@ class ViewCollectionTest extends CollectionTestCase
         $viewCollection = new WidgetCollection();
 
         $viewCollection->set(null, new NullView());
-        $this->assertTrue($viewCollection->hasKey('null'));
+        $this->assertTrue($viewCollection->keyExists('null'));
 
         $viewCollection->set(null, new StringView());
-        $this->assertTrue($viewCollection->hasKey('string'));
+        $this->assertTrue($viewCollection->keyExists('string'));
 
         $viewCollection->set(null, new PhpFileView());
-        $this->assertTrue($viewCollection->hasKey('php'));
+        $this->assertTrue($viewCollection->keyExists('php'));
     }
 
     /**
