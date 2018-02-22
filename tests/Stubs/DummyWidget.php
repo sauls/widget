@@ -13,7 +13,7 @@
 namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\Widget;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 class DummyWidget extends Widget
 {
@@ -25,7 +25,7 @@ class DummyWidget extends Widget
      *
      * @return void
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         // do nothing?
     }

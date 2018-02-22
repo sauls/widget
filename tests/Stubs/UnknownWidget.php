@@ -13,11 +13,11 @@
 namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\Widget;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 class UnknownWidget extends Widget
 {
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
     }
 

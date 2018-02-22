@@ -38,7 +38,7 @@ trait ViewTestCaseTrait
             $path = [__DIR__, '..', 'Stubs', 'templates'];
         }
 
-        return create_directory_path($path);
+        return implode(DIRECTORY_SEPARATOR,  $path);
     }
 
     /**

@@ -15,7 +15,7 @@ namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\Named;
 use Sauls\Component\Widget\Widget;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 class DifferentNamedWidget extends Widget implements Named
 {
@@ -25,20 +25,19 @@ class DifferentNamedWidget extends Widget implements Named
         return 'different_widget';
     }
 
-    /**
-     * @throws \Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+    /***
+     * @throws \Exception
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefined(['value'])
-            ->addAllowedValues('value', ['string', 'int'])
-            ->setDefaults(['one hundred']);
+            ->addAllowedTypes('value', ['string', 'int'])
+            ->setDefaults(['value' => 'one hundred']);
     }
 
     public function render(): string
     {
-        return sprintf('Different widget!');
+        return sprintf('Different widget with value %s!', $this->getOption('value'));
     }
 }

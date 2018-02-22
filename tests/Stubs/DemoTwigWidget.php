@@ -10,18 +10,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Sauls\Component\Widget\Stubs\templates;
+namespace Sauls\Component\Widget\Stubs;
 
 
 use Sauls\Component\Widget\ViewWidget;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 class DemoTwigWidget extends ViewWidget
 {
     /**
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @param OptionsResolver $resolver
+     *
+     * @throws \Exception
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 

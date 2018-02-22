@@ -33,13 +33,13 @@ class WidgetCollectionTest extends CollectionTestCase
             'my_own_different_widget_name' => new DifferentNamedWidget(),
         ]);
 
-        $this->assertTrue($widgetCollection->hasKey(NamedDummyWidget::class));
-        $this->assertTrue($widgetCollection->hasKey('dummy'));
-        $this->assertTrue($widgetCollection->hasKey(ConfigurableWidget::class));
-        $this->assertTrue($widgetCollection->hasKey(DummyWidget::class));
-        $this->assertTrue($widgetCollection->hasKey(DifferentNamedWidget::class));
-        $this->assertTrue($widgetCollection->hasKey('different_widget'));
-        $this->assertTrue($widgetCollection->hasKey('my_own_different_widget_name'));
+        $this->assertTrue($widgetCollection->keyExists(NamedDummyWidget::class));
+        $this->assertTrue($widgetCollection->keyExists('dummy'));
+        $this->assertTrue($widgetCollection->keyExists(ConfigurableWidget::class));
+        $this->assertTrue($widgetCollection->keyExists(DummyWidget::class));
+        $this->assertTrue($widgetCollection->keyExists(DifferentNamedWidget::class));
+        $this->assertTrue($widgetCollection->keyExists('different_widget'));
+        $this->assertTrue($widgetCollection->keyExists('my_own_different_widget_name'));
     }
 
     /**

@@ -12,20 +12,17 @@
 
 namespace Sauls\Component\Widget;
 
-use function Sauls\Component\Helper\array_remove_key;
-use Sauls\Component\Widget\View\StringView;
 use Sauls\Component\Widget\View\Traits\ViewAwareTrait;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\OptionsResolver\OptionsResolver;
 
 abstract class ViewWidget extends Widget implements ViewWidgetInterface
 {
     use ViewAwareTrait;
 
     /**
-     * @throws \Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @throws \Exception
      */
-    public function configureOptions(OptionsResolver $resolver): void
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefined(

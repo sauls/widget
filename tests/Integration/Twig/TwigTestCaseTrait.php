@@ -18,9 +18,6 @@ use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
 
 trait TwigTestCaseTrait
 {
-    /**
-     * @throws PropertyNotAccessibleException
-     */
     public function createTwigEnvironment(array $options): \Twig_Environment
     {
         $cacheDir = array_get_value($options, 'cacheDir', '');

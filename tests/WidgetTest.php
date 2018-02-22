@@ -26,7 +26,7 @@ class WidgetTest extends WidgetTestCase
     /**
      * @test
      */
-    public function should_render_widget()
+    public function should_render_widget(): void
     {
         $dummyWidget = new DummyWidget();
         $this->assertContains('hello', $dummyWidget->__toString());
@@ -36,7 +36,7 @@ class WidgetTest extends WidgetTestCase
     /**
      * @test
      */
-    public function should_assign_custom_widget_id()
+    public function should_assign_custom_widget_id(): void
     {
         $dummyWidget = new DummyWidget();
         $dummyWidget->setId('dummy-widget');
@@ -47,7 +47,7 @@ class WidgetTest extends WidgetTestCase
      * @test
      * @throws \Exception
      */
-    public function should_create_widget_with_default_values()
+    public function should_create_widget_with_default_values(): void
     {
         $configurableWidget = (new ConfigurableWidget())->widget();
 
@@ -59,7 +59,7 @@ class WidgetTest extends WidgetTestCase
      * @test
      * @throws \Exception
      */
-    public function should_create_widget_with_custom_values()
+    public function should_create_widget_with_custom_values(): void
     {
         $configurableWidget = (new ConfigurableWidget())->widget([
             'interval' => 15,
@@ -75,7 +75,7 @@ class WidgetTest extends WidgetTestCase
      *
      * @throws \Exception
      */
-    public function should_return_all_options()
+    public function should_return_all_options(): void
     {
         $configurableWidget = (new ConfigurableWidget())->widget();
         $this->assertSame(
@@ -91,7 +91,7 @@ class WidgetTest extends WidgetTestCase
      * @test
      * @throws \Exception
      */
-    public function should_return_options_collection()
+    public function should_return_options_collection(): void
     {
         $configurableWidget = (new ConfigurableWidget())->widget();
 
@@ -102,7 +102,7 @@ class WidgetTest extends WidgetTestCase
      * @test
      * @throws \Exception
      */
-    public function should_throw_exception_on_option_that_does_not_exists()
+    public function should_throw_exception_on_option_that_does_not_exists(): void
     {
         $this->expectException(UndefinedOptionsException::class);
 
@@ -118,7 +118,7 @@ class WidgetTest extends WidgetTestCase
      *
      * @throws \Exception
      */
-    public function should_render_error_message()
+    public function should_render_error_message(): void
     {
         $faultyWidget = (new FaultyWidget())->widget();
 
@@ -129,7 +129,7 @@ class WidgetTest extends WidgetTestCase
      * @test
      * @throws \Exception
      */
-    public function should_render_view_widget_with_string_view_and_default_view_value()
+    public function should_render_view_widget_with_string_view_and_default_view_value(): void
     {
         $widget = $this->createViewWidget(SimpleViewWidget::class, [
             'viewData' => [
@@ -144,7 +144,7 @@ class WidgetTest extends WidgetTestCase
      * @test
      * @throws \Exception
      */
-    public function should_render_view_widget_with_string_view_and_custom_view_value()
+    public function should_render_view_widget_with_string_view_and_custom_view_value(): void
     {
         $widget = $this->createViewWidget(SimpleViewWidget::class, [
             'viewFile' => 'Hello {name}. And welcome to {place}!',
