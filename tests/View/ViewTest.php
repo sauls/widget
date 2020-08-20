@@ -12,6 +12,8 @@
 
 namespace Sauls\Component\Widget\View;
 
+use RuntimeException;
+
 use function Sauls\Component\Helper\create_directory_path;
 
 class ViewTest extends ViewTestCase
@@ -46,23 +48,25 @@ class ViewTest extends ViewTestCase
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Missing template directories for Sauls\Component\Widget\View\PhpFileView
      */
     public function should_render_php_file_view_with_template_directories_exception(): void
     {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Missing template directories for Sauls\Component\Widget\View\PhpFileView');
+
         $phpFileView = new PhpFileView();
         $phpFileView->render('test.php');
     }
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Template test.html.php was not found.
      */
     public function should_render_php_file_view_with_template_file_not_found_exception(): void
     {
-        $phpFileView = new PhpFileView([__DIR__, __DIR__.'/templates']);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Template test.html.php was not found.');
+
+        $phpFileView = new PhpFileView([__DIR__, __DIR__ . '/templates']);
         $phpFileView->render('test.html.php');
     }
 
@@ -71,14 +75,14 @@ class ViewTest extends ViewTestCase
      */
     public function should_render_php_file_view(): void
     {
-        $phpFileView = new PhpFileView([__DIR__.'/../Stubs/templates',]);
+        $phpFileView = new PhpFileView([__DIR__ . '/../Stubs/templates',]);
         $this->assertSame('php', $phpFileView->getName());
         $this->assertEquals('Test template', $phpFileView->render('test.php'));
         $this->assertEquals(
             'This template variable $var value is NONE',
             $phpFileView->render('test_with_params.php', ['var' => 'NONE'])
         );
-        $this->assertSame('Secret', $phpFileView->render(__DIR__.'/../Stubs/templates/subdir/secret-file.php'));
+        $this->assertSame('Secret', $phpFileView->render(__DIR__ . '/../Stubs/templates/subdir/secret-file.php'));
         $this->assertSame('Secret', $phpFileView->render('subdir/secret-file.php'));
     }
 
@@ -93,6 +97,6 @@ class ViewTest extends ViewTestCase
         );
 
         $this->assertSame('twig', $twigView->getName());
-        $this->assertContains('This is a twig demo widget.', $twigView->render('demo.html.twig', ['text' => 'demo']));
+        $this->assertStringContainsString('This is a twig demo widget.', $twigView->render('demo.html.twig', ['text' => 'demo']));
     }
 }

@@ -32,7 +32,7 @@ class WidgetFactoryTest extends WidgetFactoryTestCase
     public function should_create_widget(string $expected, string $widgetName, array $widgetOptions): void
     {
         $widgetFactory = $this->createWidgetFactory();
-        $this->assertContains($expected, (string)$widgetFactory->create($widgetName, $widgetOptions));
+        $this->assertStringContainsString($expected, (string)$widgetFactory->create($widgetName, $widgetOptions));
     }
 
     public function getCreateWidgetData(): array

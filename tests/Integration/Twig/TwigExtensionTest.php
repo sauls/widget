@@ -32,7 +32,7 @@ class TwigExtensionTest extends TwigExtensionTestCase
 
         $result = $twig->render('integration/widget.html.twig');
 
-        $this->assertContains('Widget refresh interval is 30 at position top', $result);
-        $this->assertContains('Widget `SaulsComponentWidgetStubsFaultyWidget` not found or is not registered.', $result);
+        $this->assertStringContainsString('Widget refresh interval is 30 at position top', $result);
+        $this->assertStringContainsString('Widget `SaulsComponentWidgetStubsFaultyWidget` not found or is not registered.', $result);
     }
 }
