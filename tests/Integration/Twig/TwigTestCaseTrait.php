@@ -12,13 +12,19 @@
 
 namespace Sauls\Component\Widget\Integration\Twig;
 
+use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 use function Sauls\Component\Helper\array_get_value;
 use function Sauls\Component\Helper\array_merge;
-use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
 
 trait TwigTestCaseTrait
 {
-    public function createTwigEnvironment(array $options): \Twig_Environment
+    /**
+     * @throws PropertyNotAccessibleException
+     */
+    public function createTwigEnvironment(array $options): Environment
     {
         $cacheDir = array_get_value($options, 'cacheDir', '');
         $templateDir = array_get_value($options, 'templateDir', '');
@@ -28,8 +34,8 @@ trait TwigTestCaseTrait
         );
         $extensions = array_get_value($options, 'extensions', []);
 
-        $loader = new \Twig_Loader_Filesystem($cacheDir);
-        $twig = new \Twig_Environment($loader, $templateDirectories);
+        $loader = new FilesystemLoader($cacheDir);
+        $twig = new Environment($loader, $templateDirectories);
 
         foreach ($extensions as $extension) {
             $twig->addExtension($extension);

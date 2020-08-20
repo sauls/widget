@@ -11,7 +11,8 @@ Simple but powerful widget system for PHP
 
 ## Requirements
 
-PHP >= 7.2
+PHP >= 7.4
+Twig ^3.0
 
 ## Installation
 

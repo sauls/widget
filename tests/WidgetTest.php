@@ -29,7 +29,7 @@ class WidgetTest extends WidgetTestCase
     public function should_render_widget(): void
     {
         $dummyWidget = new DummyWidget();
-        $this->assertContains('hello', $dummyWidget->__toString());
+        $this->assertStringContainsString('hello', $dummyWidget->__toString());
         $this->assertEquals('w0', $dummyWidget->getId());
     }
 
@@ -137,7 +137,7 @@ class WidgetTest extends WidgetTestCase
             ],
         ], new StringView);
 
-        $this->assertContains('Hello my name is John', (string)$widget);
+        $this->assertStringContainsString('Hello my name is John', (string)$widget);
     }
 
     /**
@@ -154,6 +154,6 @@ class WidgetTest extends WidgetTestCase
             ],
         ], new StringView);
 
-        $this->assertContains('Hello John. And welcome to World of PHP', (string)$widget);
+        $this->assertStringContainsString('Hello John. And welcome to World of PHP', (string)$widget);
     }
 }
