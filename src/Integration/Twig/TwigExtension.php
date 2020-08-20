@@ -12,11 +12,15 @@
 
 namespace Sauls\Component\Widget\Integration\Twig;
 
+use Exception;
+use Sauls\Component\Helper\Exception\PropertyNotAccessibleException;
+use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 use function Sauls\Component\Helper\array_get_value;
-use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 
-class TwigExtension extends \Twig_Extension
+class TwigExtension extends AbstractExtension
 {
     private $widgetFactory;
 
@@ -28,15 +32,17 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('widget', [$this, 'widget'], [
-                'is_safe' => ['html'],
-            ])
+            new TwigFunction(
+                'widget', [$this, 'widget'], [
+                            'is_safe' => ['html'],
+                        ]
+            ),
         ];
     }
 
     /**
-     * @throws \Exception
-     * @throws \Sauls\Component\Helper\Exception\PropertyNotAccessibleException
+     * @throws Exception
+     * @throws PropertyNotAccessibleException
      */
     public function widget(string $name, array $options = [], array $extenstionOptions = []): string
     {
@@ -44,14 +50,12 @@ class TwigExtension extends \Twig_Extension
 
         try {
             return $this->widgetFactory->create($name, $options);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if (false === $outputErrors) {
                 return $e->getMessage();
             }
 
             return '';
         }
-
     }
-
 }
