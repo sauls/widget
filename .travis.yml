@@ -23,9 +23,9 @@ before_install:
   - composer self-update
 
 install:
-  - composer update --prefer-source --no-dev `if [[ $COMPOSER_PREFER_LOWEST = true ]]; then echo "--prefer-lowest --prefer-stable"; fi`
+  - composer update --prefer-source `if [[ $COMPOSER_PREFER_LOWEST = true ]]; then echo "--prefer-lowest --prefer-stable"; fi`
 
-script: phpunit --coverage-clover=build/logs/clover.xml
+script: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls -v
