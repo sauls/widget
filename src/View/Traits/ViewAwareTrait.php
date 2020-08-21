@@ -16,7 +16,7 @@ use Sauls\Component\Widget\View\ViewInterface;
 
 trait ViewAwareTrait
 {
-    private $view;
+    private ViewInterface $view;
 
     public function setView(ViewInterface $view): void
     {

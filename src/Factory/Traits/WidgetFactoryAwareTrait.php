@@ -16,10 +16,7 @@ use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 
 trait WidgetFactoryAwareTrait
 {
-    /**
-     * @var WidgetFactoryInterface $widgetFactory
-     */
-    protected $widgetFactory;
+    protected WidgetFactoryInterface $widgetFactory;
 
     public function setWidgetFactory(WidgetFactoryInterface $widgetFactory): void
     {

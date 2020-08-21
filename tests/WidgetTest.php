@@ -12,10 +12,11 @@
 
 namespace Sauls\Component\Widget;
 
-use PHPUnit\Framework\TestCase;
+use Exception;
 use Sauls\Component\Collection\Collection;
 use Sauls\Component\Widget\Stubs\ConfigurableWidget;
 use Sauls\Component\Widget\Stubs\DummyWidget;
+use Sauls\Component\Widget\Stubs\DynamicDataViewWidget;
 use Sauls\Component\Widget\Stubs\FaultyWidget;
 use Sauls\Component\Widget\Stubs\SimpleViewWidget;
 use Sauls\Component\Widget\View\StringView;
@@ -45,7 +46,7 @@ class WidgetTest extends WidgetTestCase
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_create_widget_with_default_values(): void
     {
@@ -57,14 +58,16 @@ class WidgetTest extends WidgetTestCase
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_create_widget_with_custom_values(): void
     {
-        $configurableWidget = (new ConfigurableWidget())->widget([
-            'interval' => 15,
-            'position' => 'bottom',
-        ]);
+        $configurableWidget = (new ConfigurableWidget())->widget(
+            [
+                'interval' => 15,
+                'position' => 'bottom',
+            ]
+        );
 
         $this->assertSame(15, $configurableWidget->getOption('interval'));
         $this->assertSame('bottom', $configurableWidget->getOption('position'));
@@ -73,7 +76,7 @@ class WidgetTest extends WidgetTestCase
     /**
      * @test
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_return_all_options(): void
     {
@@ -89,7 +92,7 @@ class WidgetTest extends WidgetTestCase
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_return_options_collection(): void
     {
@@ -100,23 +103,25 @@ class WidgetTest extends WidgetTestCase
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_throw_exception_on_option_that_does_not_exists(): void
     {
         $this->expectException(UndefinedOptionsException::class);
 
-        (new ConfigurableWidget())->widget([
-            'interval' => 15,
-            'position' => 'bottom',
-            'unknown' => 14,
-        ]);
+        (new ConfigurableWidget())->widget(
+            [
+                'interval' => 15,
+                'position' => 'bottom',
+                'unknown' => 14,
+            ]
+        );
     }
 
     /**
      * @test
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_render_error_message(): void
     {
@@ -127,33 +132,61 @@ class WidgetTest extends WidgetTestCase
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_render_view_widget_with_string_view_and_default_view_value(): void
     {
-        $widget = $this->createViewWidget(SimpleViewWidget::class, [
-            'viewData' => [
-                'name' => 'John'
+        $widget = $this->createViewWidget(
+            SimpleViewWidget::class,
+            [
+                'viewData' => [
+                    'name' => 'John',
+                ],
             ],
-        ], new StringView);
+            new StringView()
+        );
 
         $this->assertStringContainsString('Hello my name is John', (string)$widget);
     }
 
     /**
      * @test
-     * @throws \Exception
+     * @throws Exception
      */
     public function should_render_view_widget_with_string_view_and_custom_view_value(): void
     {
-        $widget = $this->createViewWidget(SimpleViewWidget::class, [
-            'viewFile' => 'Hello {name}. And welcome to {place}!',
-            'viewData' => [
-                'name' => 'John',
-                'place' => 'World of PHP',
+        $widget = $this->createViewWidget(
+            SimpleViewWidget::class,
+            [
+                'viewFile' => 'Hello {name}. And welcome to {place}!',
+                'viewData' => [
+                    'name' => 'John',
+                    'place' => 'World of PHP',
+                ],
             ],
-        ], new StringView);
+            new StringView()
+        );
 
         $this->assertStringContainsString('Hello John. And welcome to World of PHP', (string)$widget);
+    }
+
+    /**
+     * @test
+     */
+    public function should_render_dynamyic_values(): void
+    {
+        $widget = $this->createViewWidget(
+            DynamicDataViewWidget::class,
+            [
+                'viewFile' => 'Hello {name}. And welcome to {place}!',
+                'viewData' => [
+                    'name' => 'Sally',
+                    'place' => 'Paradise',
+                ],
+            ],
+            new StringView()
+        );
+
+    $this->assertStringContainsString('Hello Sally. And welcome to Hell', (string)$widget);
     }
 }
