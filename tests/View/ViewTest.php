@@ -14,8 +14,6 @@ namespace Sauls\Component\Widget\View;
 
 use RuntimeException;
 
-use function Sauls\Component\Helper\create_directory_path;
-
 class ViewTest extends ViewTestCase
 {
     /**

@@ -79,7 +79,7 @@ class PhpFileView implements ViewInterface
         }
     }
 
-    private function resolveTemplateFile(string $viewFile): string
+    private function resolveTemplateFile(string $viewFile): ?string
     {
         foreach ($this->templatesDirectories as $directory) {
             $template = realpath($directory.DIRECTORY_SEPARATOR.$viewFile);

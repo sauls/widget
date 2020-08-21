@@ -13,13 +13,15 @@
 namespace Sauls\Component\Widget\Factory;
 
 use Sauls\Component\Collection\Collection;
-use function Sauls\Component\Helper\array_remove_key;
-use function Sauls\Component\Helper\class_uses_trait;
 use Sauls\Component\Widget\Exception\CollectionItemNotFoundException;
 use Sauls\Component\Widget\Exception\WidgetNotFoundException;
 use Sauls\Component\Widget\Factory\Traits\WidgetFactoryAwareTrait;
 use Sauls\Component\Widget\ViewWidgetInterface;
 use Sauls\Component\Widget\WidgetInterface;
+use SplFileInfo;
+
+use function Sauls\Component\Helper\array_remove_key;
+use function Sauls\Component\Helper\class_uses_trait;
 
 class WidgetFactory implements WidgetFactoryInterface
 {
@@ -41,7 +43,6 @@ class WidgetFactory implements WidgetFactoryInterface
             $widget = clone $this->widgetCollection->get($name);
 
             return $this->configureWidget($widget, $options);
-
         } catch (CollectionItemNotFoundException $e) {
             throw new WidgetNotFoundException(sprintf('Widget `%s` not found or is not registered.', $name));
         } catch (\Exception $e) {
@@ -67,20 +68,18 @@ class WidgetFactory implements WidgetFactoryInterface
         return array_remove_key($options, 'view', '');
     }
 
+    private function injectWidgetFactory($widget): void
+    {
+        if (class_uses_trait(\get_class($widget), WidgetFactoryAwareTrait::class)) {
+            $widget->setWidgetFactory($this);
+        }
+    }
+
     private function resolveDependencies(WidgetInterface $widget, string $viewName): WidgetInterface
     {
         $this->injectView($widget, $viewName);
 
         return $widget;
-    }
-
-    private function resolveWidgetViewName(WidgetInterface $widget): string
-    {
-        $info = new \SplFileInfo($widget->getOption('viewFile'));
-        $fileExtension = $info->getExtension();
-
-        return $this->viewCollection->keyExists($fileExtension) ? $fileExtension : 'string';
-
     }
 
     private function injectView(WidgetInterface $widget, string $viewName): void
@@ -91,10 +90,11 @@ class WidgetFactory implements WidgetFactoryInterface
         }
     }
 
-    private function injectWidgetFactory($widget): void
+    private function resolveWidgetViewName(WidgetInterface $widget): string
     {
-        if (class_uses_trait(\get_class($widget), WidgetFactoryAwareTrait::class)) {
-            $widget->setWidgetFactory($this);
-        }
+        $info = new SplFileInfo($widget->getOption('viewFile'));
+        $fileExtension = $info->getExtension();
+
+        return $this->viewCollection->keyExists($fileExtension) ? $fileExtension : 'string';
     }
 }

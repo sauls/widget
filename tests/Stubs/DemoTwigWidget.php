@@ -35,4 +35,8 @@ class DemoTwigWidget extends ViewWidget
         ]);
     }
 
+    protected function process(): array
+    {
+        return [];
+    }
 }
