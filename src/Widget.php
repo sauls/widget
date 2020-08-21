@@ -49,7 +49,6 @@ abstract class Widget implements WidgetInterface
             $resolver = new OptionsResolver;
             $this->configureOptions($resolver);
             $this->options = new ArrayCollection($resolver->resolve($this->resolveOptions($options)));
-            define_object($this, $this->options->all());
             $this->initialize();
         } catch (\Exception $e) {
             throw $e;

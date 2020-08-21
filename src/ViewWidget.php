@@ -12,12 +12,27 @@
 
 namespace Sauls\Component\Widget;
 
-use Sauls\Component\Widget\View\Traits\ViewAwareTrait;
 use Sauls\Component\OptionsResolver\OptionsResolver;
+use Sauls\Component\Widget\View\Traits\ViewAwareTrait;
+
+use function Sauls\Component\Helper\array_merge;
 
 abstract class ViewWidget extends Widget implements ViewWidgetInterface
 {
     use ViewAwareTrait;
+
+    public function render(): string
+    {
+        return $this->view->render(
+            $this->getOption('viewFile'),
+            array_merge(
+                $this->getOption('viewData'),
+                $this->process()
+            )
+        );
+    }
+
+    abstract protected function process(): array;
 
     /**
      * @throws \Exception
@@ -27,19 +42,17 @@ abstract class ViewWidget extends Widget implements ViewWidgetInterface
         $resolver
             ->setDefined(
                 [
-                    'viewFile', 'viewData'
+                    'viewFile',
+                    'viewData',
                 ]
             )
             ->addAllowedTypes('viewFile', ['string'])
             ->addAllowedTypes('viewData', ['array'])
-            ->setDefaults([
-                'viewFile' => '',
-                'viewData' => [],
-            ]);
-    }
-
-    public function render(): string
-    {
-        return $this->view->render($this->getOption('viewFile'), $this->getOption('viewData'));
+            ->setDefaults(
+                [
+                    'viewFile' => '',
+                    'viewData' => [],
+                ]
+            );
     }
 }
