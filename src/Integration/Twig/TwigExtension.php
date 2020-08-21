@@ -33,10 +33,12 @@ class TwigExtension extends AbstractExtension
     {
         return [
             new TwigFunction(
-                'widget', [$this, 'widget'], [
-                            'is_safe' => ['html'],
-                        ]
-            ),
+                'widget',
+                [$this, 'widget'],
+                [
+                    'is_safe' => ['html'],
+                ]
+            )
         ];
     }
 

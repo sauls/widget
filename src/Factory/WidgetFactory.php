@@ -20,6 +20,7 @@ use Sauls\Component\Widget\ViewWidgetInterface;
 use Sauls\Component\Widget\WidgetInterface;
 use SplFileInfo;
 
+use function get_class;
 use function Sauls\Component\Helper\array_remove_key;
 use function Sauls\Component\Helper\class_uses_trait;
 
@@ -70,7 +71,7 @@ class WidgetFactory implements WidgetFactoryInterface
 
     private function injectWidgetFactory($widget): void
     {
-        if (class_uses_trait(\get_class($widget), WidgetFactoryAwareTrait::class)) {
+        if (class_uses_trait(get_class($widget), WidgetFactoryAwareTrait::class)) {
             $widget->setWidgetFactory($this);
         }
     }
