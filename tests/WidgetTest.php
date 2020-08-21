@@ -22,6 +22,7 @@ use Sauls\Component\Widget\Stubs\DynamicDataViewWidget;
 use Sauls\Component\Widget\Stubs\FaultyWidget;
 use Sauls\Component\Widget\Stubs\SimpleViewWidget;
 use Sauls\Component\Widget\View\StringView;
+use Sauls\Component\Widget\Widgets\CacheableWidget;
 use stdClass;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;

@@ -16,6 +16,11 @@ use Sauls\Component\Collection\ArrayCollection;
 use Sauls\Component\Widget\Exception\CollectionItemNotFoundException;
 use Sauls\Component\Widget\Named;
 use Sauls\Component\Widget\WidgetInterface;
+use Throwable;
+
+use function get_class;
+use function is_string;
+use function sprintf;
 
 class WidgetCollection extends ArrayCollection
 {
@@ -25,9 +30,9 @@ class WidgetCollection extends ArrayCollection
             parent::set($value->getName(), $value);
         }
 
-        parent::set(\get_class($value), $value);
+        parent::set(get_class($value), $value);
 
-        if (\is_string($key)) {
+        if (is_string($key)) {
             parent::set($key, $value);
         }
     }
@@ -39,9 +44,9 @@ class WidgetCollection extends ArrayCollection
     {
         try {
             return parent::get($key, $default);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new CollectionItemNotFoundException(
-                \sprintf('`%s` collection does not have item with name `%s`', \get_class($this), $key)
+                sprintf('`%s` collection does not have item with name `%s`', get_class($this), $key)
             );
         }
     }

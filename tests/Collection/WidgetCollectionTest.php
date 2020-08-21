@@ -18,6 +18,8 @@ use Sauls\Component\Widget\Stubs\DifferentNamedWidget;
 use Sauls\Component\Widget\Stubs\DummyWidget;
 use Sauls\Component\Widget\Stubs\NamedDummyWidget;
 use Sauls\Component\Widget\Stubs\UnknownWidget;
+use Sauls\Component\Widget\Widgets\CacheableWidget;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class WidgetCollectionTest extends CollectionTestCase
 {
@@ -26,12 +28,14 @@ class WidgetCollectionTest extends CollectionTestCase
      */
     public function should_set_widgets()
     {
-        $widgetCollection = $this->createWidgetCollection([
-            new NamedDummyWidget(),
-            new ConfigurableWidget(),
-            new DummyWidget(),
-            'my_own_different_widget_name' => new DifferentNamedWidget(),
-        ]);
+        $widgetCollection = $this->createWidgetCollection(
+            [
+                new NamedDummyWidget(),
+                new ConfigurableWidget(),
+                new DummyWidget(),
+                'my_own_different_widget_name' => new DifferentNamedWidget(),
+            ]
+        );
 
         $this->assertTrue($widgetCollection->keyExists(NamedDummyWidget::class));
         $this->assertTrue($widgetCollection->keyExists('dummy'));
@@ -47,12 +51,14 @@ class WidgetCollectionTest extends CollectionTestCase
      */
     public function should_return_widget()
     {
-        $widgetCollection = $this->createWidgetCollection([
-            new NamedDummyWidget(),
-            new ConfigurableWidget(),
-            new DummyWidget(),
-            'my_own_different_widget_name' => new DifferentNamedWidget(),
-        ]);
+        $widgetCollection = $this->createWidgetCollection(
+            [
+                new NamedDummyWidget(),
+                new ConfigurableWidget(),
+                new DummyWidget(),
+                'my_own_different_widget_name' => new DifferentNamedWidget(),
+            ]
+        );
 
         $this->assertInstanceOf(NamedDummyWidget::class, $widgetCollection->get(NamedDummyWidget::class));
         $this->assertInstanceOf(NamedDummyWidget::class, $widgetCollection->get('dummy'));
@@ -61,7 +67,6 @@ class WidgetCollectionTest extends CollectionTestCase
         $this->assertInstanceOf(DifferentNamedWidget::class, $widgetCollection->get(DifferentNamedWidget::class));
         $this->assertInstanceOf(DifferentNamedWidget::class, $widgetCollection->get('different_widget'));
         $this->assertInstanceOf(DifferentNamedWidget::class, $widgetCollection->get('my_own_different_widget_name'));
-
     }
 
     /**
@@ -74,5 +79,19 @@ class WidgetCollectionTest extends CollectionTestCase
         $widgetCollection = $this->createWidgetCollection();
 
         $widgetCollection->get(UnknownWidget::class);
+    }
+
+    /**
+     * @test
+     */
+    public function should_return_cacheable_widget_name(): void
+    {
+        $widgetCollection = $this->createWidgetCollection(
+            [
+                new CacheableWidget(new ArrayAdapter()),
+            ]
+        );
+
+        $this->assertInstanceOf(CacheableWidget::class,  $widgetCollection->get('cacheable_widget'));
     }
 }

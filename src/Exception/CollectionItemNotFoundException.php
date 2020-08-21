@@ -14,5 +14,4 @@ namespace Sauls\Component\Widget\Exception;
 
 class CollectionItemNotFoundException extends \Exception
 {
-
 }
