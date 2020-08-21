@@ -20,8 +20,7 @@
     "twig/twig": "^3.0"
   },
   "suggest": {
-    "twig/twig": "Add this if yf you want to use twig as renderer",
-    "symfony/cache": "Add this if you want to cache widgets responses"
+    "twig/twig": "Add this if yf you want to use twig as renderer"
   },
   "autoload": {
     "psr-4": {
