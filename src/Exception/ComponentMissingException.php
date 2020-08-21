@@ -4,14 +4,18 @@
  *
  * @author    Saulius Vaičeliūnas <vaiceliunas@inbox.lt>
  * @link      http://saulius.vaiceliunas.lt
- * @copyright 2018
+ * @copyright 2020
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Sauls\Component\Widget\Exception;
 
-class WidgetNotFoundException extends \Exception
+use RuntimeException;
+
+class ComponentMissingException extends RuntimeException
 {
 }
