@@ -53,7 +53,7 @@ class TwigExtension extends AbstractExtension
         try {
             return $this->widgetFactory->create($name, $options);
         } catch (Exception $e) {
-            if (false === $outputErrors) {
+            if ($outputErrors) {
                 return $e->getMessage();
             }
 
