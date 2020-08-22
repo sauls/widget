@@ -58,13 +58,12 @@ class CacheableWidget extends Widget implements Named
 
     private function createKey(): string
     {
-        return md5(
+        return
             sprintf(
                 '__%1$s%2$s__%3$s__',
                 $this->getOption('namespace') . self::$prefix,
-                $this->getOption('widget.id'),
+                md5($this->getOption('widget.id')),
                 $this->getId()
-            )
         );
     }
 
