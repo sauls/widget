@@ -17,7 +17,6 @@ namespace Sauls\Component\Widget\Widgets;
 use Psr\Cache\InvalidArgumentException;
 use Sauls\Component\Widget\Exception\WidgetFactoryIsNullException;
 use Sauls\Component\Widget\Factory\Traits\WidgetFactoryAwareTrait;
-use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 use Sauls\Component\Widget\Named;
 use Sauls\Component\Widget\Widget;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -58,13 +57,11 @@ class CacheableWidget extends Widget implements Named
 
     private function createKey(): string
     {
-        return md5(
-            sprintf(
-                '__%1$s%2$s__%3$s__',
-                $this->getOption('namespace') . self::$prefix,
-                $this->getOption('widget.id'),
-                $this->getId()
-            )
+        return sprintf(
+            '__%1$s%2$s__%3$s__',
+            $this->getOption('namespace') . self::$prefix,
+            md5($this->getOption('widget.id')),
+            $this->getId()
         );
     }
 
