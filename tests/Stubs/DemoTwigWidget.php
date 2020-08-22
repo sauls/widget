@@ -12,27 +12,26 @@
 
 namespace Sauls\Component\Widget\Stubs;
 
-
 use Sauls\Component\Widget\ViewWidget;
-use Sauls\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DemoTwigWidget extends ViewWidget
 {
     /**
-     * @param OptionsResolver $resolver
-     *
      * @throws \Exception
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'viewFile' => 'demo.html.twig',
-            'viewData' => [
-                'text' => 'DEMO'
-            ],
-        ]);
+        $resolver->setDefaults(
+            [
+                'viewFile' => 'demo.html.twig',
+                'viewData' => [
+                    'text' => 'DEMO',
+                ],
+            ]
+        );
     }
 
     protected function process(): array

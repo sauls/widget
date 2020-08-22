@@ -14,7 +14,7 @@ namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\Factory\Traits\WidgetFactoryAwareTrait;
 use Sauls\Component\Widget\Widget;
-use Sauls\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class WidgetFactoryDependentWidget extends Widget
 {

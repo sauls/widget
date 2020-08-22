@@ -13,7 +13,7 @@
 namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\Widget;
-use Sauls\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FaultyWidget extends Widget
 {

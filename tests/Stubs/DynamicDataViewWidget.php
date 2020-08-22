@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sauls\Component\Widget\Stubs;
 
-use Sauls\Component\OptionsResolver\OptionsResolver;
 use Sauls\Component\Widget\ViewWidget;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DynamicDataViewWidget extends ViewWidget
 {
