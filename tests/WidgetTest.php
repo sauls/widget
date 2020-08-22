@@ -242,7 +242,7 @@ class WidgetTest extends WidgetTestCase
         CacheableWidget::$total = 0;
         $cache = new ArrayAdapter();
         $cache->get(
-            '____something_awesome__cw5d99926b83170885d513501ca045c9ba__cw0__',
+            '____something_awesome__cwefcdfdf79627baa3309f5be02cca8c0e__cw0__',
             function (ItemInterface $item) {
                 return 'This is cached value for the widget';
             }

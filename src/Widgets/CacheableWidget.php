@@ -23,6 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
+use function json_encode;
 use function sprintf;
 
 class CacheableWidget extends Widget implements Named
@@ -60,7 +61,7 @@ class CacheableWidget extends Widget implements Named
         return sprintf(
             '__%1$s%2$s__%3$s__',
             $this->getOption('namespace') . self::$prefix,
-            md5($this->getOption('widget.id')),
+            md5($this->getOption('widget.id') . json_encode($this->getOptions())),
             $this->getId()
         );
     }
