@@ -16,9 +16,9 @@ use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 
 trait WidgetFactoryAwareTrait
 {
-    protected WidgetFactoryInterface $widgetFactory;
+    protected ?WidgetFactoryInterface $widgetFactory = null;
 
-    public function setWidgetFactory(WidgetFactoryInterface $widgetFactory): void
+    public function setWidgetFactory(?WidgetFactoryInterface $widgetFactory): void
     {
         $this->widgetFactory = $widgetFactory;
     }

@@ -16,6 +16,7 @@ use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sauls\Component\Collection\Collection;
 use Sauls\Component\Widget\Collection\CollectionTestCaseTrait;
+use Sauls\Component\Widget\Exception\WidgetFactoryIsNullException;
 use Sauls\Component\Widget\Factory\WidgetFactory;
 use Sauls\Component\Widget\Factory\WidgetFactoryTestCaseTrait;
 use Sauls\Component\Widget\Stubs\ConfigurableWidget;
@@ -227,10 +228,12 @@ class WidgetTest extends WidgetTestCase
 
     private function createCacheableWidget(CacheInterface $cache = null): CacheableWidget
     {
-        return (new CacheableWidget(
-            $cache ?? new ArrayAdapter(),
-            new WidgetFactory($this->createWidgetCollection(), $this->createViewCollection())
+        $widget = (new CacheableWidget(
+            $cache ?? new ArrayAdapter()
         ));
+        $widget->setWidgetFactory(new WidgetFactory($this->createWidgetCollection(), $this->createViewCollection()));
+
+        return $widget;
     }
 
     /** @test */
@@ -248,15 +251,43 @@ class WidgetTest extends WidgetTestCase
         $cachedWidget = $this
             ->createCacheableWidget($cache)
             ->widget(
-                ['widget' => [
-                    'id' => SimpleViewWidget::class,
-                    'options' => [
-                        'viewFile' => 'I want to be cached',
-                    ]
-                ], 'namespace' => '__something_awesome__', 'ttl' => 1337]
+                [
+                    'widget' => [
+                        'id' => SimpleViewWidget::class,
+                        'options' => [
+                            'viewFile' => 'I want to be cached',
+                        ],
+                    ],
+                    'namespace' => '__something_awesome__',
+                    'ttl' => 1337,
+                ]
             );
 
         $this->assertEquals('This is cached value for the widget', (string)$cachedWidget);
+    }
+
+    /**
+     * @test
+     */
+    public function should_throw_widget_factory_needed_exception(): void
+    {
+        $cachedWidget = $this->createCacheableWidget();
+        $cachedWidget->setWidgetFactory(null);
+
+        $cachedWidget->widget(
+            [
+                'widget' => [
+                    'id' => SimpleViewWidget::class,
+                    'options' => [
+                        'viewFile' => 'I want to be cached',
+                    ],
+                ],
+                'namespace' => '__something_awesome__',
+                'ttl' => 1337,
+            ]
+        );
+
+        $this->assertEquals('Widget factory is needed for this widget to work properly', (string)$cachedWidget);
     }
 
     /**
