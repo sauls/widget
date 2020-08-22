@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Sauls\Component\Widget\Widgets;
 
 use Psr\Cache\InvalidArgumentException;
+use Sauls\Component\Widget\Factory\Traits\WidgetFactoryAwareTrait;
 use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 use Sauls\Component\Widget\Named;
 use Sauls\Component\Widget\Widget;
@@ -26,15 +27,15 @@ use function sprintf;
 
 class CacheableWidget extends Widget implements Named
 {
+    use WidgetFactoryAwareTrait;
+
     public static $prefix = 'cw';
     public static $total = 0;
     private CacheInterface $cache;
-    private WidgetFactoryInterface $widgetFactory;
 
-    public function __construct(CacheInterface $cache, WidgetFactoryInterface $widgetFactory)
+    public function __construct(CacheInterface $cache)
     {
         $this->cache = $cache;
-        $this->widgetFactory = $widgetFactory;
     }
 
     /**

@@ -227,10 +227,11 @@ class WidgetTest extends WidgetTestCase
 
     private function createCacheableWidget(CacheInterface $cache = null): CacheableWidget
     {
-        return (new CacheableWidget(
-            $cache ?? new ArrayAdapter(),
-            new WidgetFactory($this->createWidgetCollection(), $this->createViewCollection())
+        $widget = (new CacheableWidget(
+            $cache ?? new ArrayAdapter()
         ));
+        $widget->setWidgetFactory(new WidgetFactory($this->createWidgetCollection(), $this->createViewCollection()));
+        return $widget;
     }
 
     /** @test */
