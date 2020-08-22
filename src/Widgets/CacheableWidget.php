@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Sauls\Component\Widget\Widgets;
 
 use Psr\Cache\InvalidArgumentException;
+use Sauls\Component\Widget\Exception\WidgetFactoryIsNullException;
 use Sauls\Component\Widget\Factory\Traits\WidgetFactoryAwareTrait;
 use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 use Sauls\Component\Widget\Named;
@@ -69,6 +70,10 @@ class CacheableWidget extends Widget implements Named
 
     private function resolveContentToCache(): string
     {
+        if (null === $this->widgetFactory) {
+            throw new WidgetFactoryIsNullException('Widget factory is needed for this widget to work properly');
+        }
+
         return (string)$this->widgetFactory->create(
                 $this->getOption('widget.id') ?? '',
                 $this->getOption('widget.options') ?? []

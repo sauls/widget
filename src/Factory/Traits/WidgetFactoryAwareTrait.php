@@ -18,7 +18,7 @@ trait WidgetFactoryAwareTrait
 {
     protected ?WidgetFactoryInterface $widgetFactory = null;
 
-    public function setWidgetFactory(WidgetFactoryInterface $widgetFactory): void
+    public function setWidgetFactory(?WidgetFactoryInterface $widgetFactory): void
     {
         $this->widgetFactory = $widgetFactory;
     }
