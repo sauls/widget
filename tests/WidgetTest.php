@@ -15,7 +15,9 @@ namespace Sauls\Component\Widget;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use Sauls\Component\Collection\Collection;
-use Sauls\Component\Widget\Exception\NotAWidgetException;
+use Sauls\Component\Widget\Collection\CollectionTestCaseTrait;
+use Sauls\Component\Widget\Factory\WidgetFactory;
+use Sauls\Component\Widget\Factory\WidgetFactoryTestCaseTrait;
 use Sauls\Component\Widget\Stubs\ConfigurableWidget;
 use Sauls\Component\Widget\Stubs\DummyWidget;
 use Sauls\Component\Widget\Stubs\DynamicDataViewWidget;
@@ -23,7 +25,6 @@ use Sauls\Component\Widget\Stubs\FaultyWidget;
 use Sauls\Component\Widget\Stubs\SimpleViewWidget;
 use Sauls\Component\Widget\View\StringView;
 use Sauls\Component\Widget\Widgets\CacheableWidget;
-use stdClass;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -31,6 +32,8 @@ use Symfony\Contracts\Cache\ItemInterface;
 
 class WidgetTest extends WidgetTestCase
 {
+    use WidgetFactoryTestCaseTrait, CollectionTestCaseTrait;
+
     /**
      * @test
      */
@@ -200,19 +203,60 @@ class WidgetTest extends WidgetTestCase
     /**
      * @test
      */
-    public function should_throw_exception_that_widget_does_not_implement_widget_interface(): void
+    public function should_cache_widget_output(): void
     {
-        $cache = $this->createCacheMock();
-        $cachedWidget = new CacheableWidget($cache);
+        CacheableWidget::$total = 0;
 
-        $this->expectException(NotAWidgetException::class);
-        $this->expectExceptionMessage('Given object must implement Sauls\Component\Widget\WidgetInterface interface');
+        $cachedWidget = $this
+            ->createCacheableWidget()
+            ->widget(
+                [
+                    'widget' => [
+                        'id' => SimpleViewWidget::class,
+                        'options' => [
+                            'viewFile' => 'I want to be cached',
+                        ],
+                    ],
+                    'namespace' => '__something_awesome__',
+                    'ttl' => 1337,
+                ]
+            );
 
-        $cache
-            ->expects($this->never())
-            ->method('get');
+        $this->assertEquals('I want to be cached', (string)$cachedWidget);
+    }
 
-        $cachedWidget->widget(['widget' => new stdClass()]);
+    private function createCacheableWidget(CacheInterface $cache = null): CacheableWidget
+    {
+        return (new CacheableWidget(
+            $cache ?? new ArrayAdapter(),
+            new WidgetFactory($this->createWidgetCollection(), $this->createViewCollection())
+        ));
+    }
+
+    /** @test */
+    public function should_get_widget_cached_value(): void
+    {
+        CacheableWidget::$total = 0;
+        $cache = new ArrayAdapter();
+        $cache->get(
+            '50d8e152000e5153b99a9a22047197b1',
+            function (ItemInterface $item) {
+                return 'This is cached value for the widget';
+            }
+        );
+
+        $cachedWidget = $this
+            ->createCacheableWidget($cache)
+            ->widget(
+                ['widget' => [
+                    'id' => SimpleViewWidget::class,
+                    'options' => [
+                        'viewFile' => 'I want to be cached',
+                    ]
+                ], 'namespace' => '__something_awesome__', 'ttl' => 1337]
+            );
+
+        $this->assertEquals('This is cached value for the widget', (string)$cachedWidget);
     }
 
     /**
@@ -224,55 +268,5 @@ class WidgetTest extends WidgetTestCase
         $cache->method('get')->willReturn('Cached');
 
         return $cache;
-    }
-
-    /**
-     * @test
-     */
-    public function should_cache_widget_output(): void
-    {
-        CacheableWidget::$total = 0;
-        $widget = $this->createViewWidget(
-            SimpleViewWidget::class,
-            [
-                'viewFile' => 'I want to be cached',
-            ],
-            new StringView()
-        );
-
-        $cachedWidget = (new CacheableWidget(new ArrayAdapter()))
-            ->widget(
-                ['widget' => $widget, 'namespace' => '__something_awesome__', 'ttl' => 1337]
-            );
-
-        $this->assertEquals('I want to be cached', (string)$cachedWidget);
-    }
-
-    /** @test */
-    public function should_get_widget_cached_value(): void
-    {
-        CacheableWidget::$total = 0;
-        $cache = new ArrayAdapter();
-        $cache->get(
-            '____something_awesome__cwsimple_view_widget__cw0__',
-            function (ItemInterface $item) {
-                return 'This is cached value for the widget';
-            }
-        );
-
-        $widget = $this->createViewWidget(
-            SimpleViewWidget::class,
-            [
-                'viewFile' => 'I want to be cached',
-            ],
-            new StringView()
-        );
-
-        $cachedWidget = (new CacheableWidget($cache))
-            ->widget(
-                ['widget' => $widget, 'namespace' => '__something_awesome__', 'ttl' => 1337]
-            );
-
-        $this->assertEquals('This is cached value for the widget', (string)$cachedWidget);
     }
 }

@@ -12,17 +12,20 @@
 
 namespace Sauls\Component\Widget\Stubs;
 
-
 use Sauls\Component\Widget\Named;
 use Sauls\Component\Widget\Widget;
-use Sauls\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DifferentNamedWidget extends Widget implements Named
 {
-
     public function getName(): string
     {
         return 'different_widget';
+    }
+
+    public function render(): string
+    {
+        return sprintf('Different widget with value %s!', $this->getOption('value'));
     }
 
     /***
@@ -34,10 +37,5 @@ class DifferentNamedWidget extends Widget implements Named
             ->setDefined(['value'])
             ->addAllowedTypes('value', ['string', 'int'])
             ->setDefaults(['value' => 'one hundred']);
-    }
-
-    public function render(): string
-    {
-        return sprintf('Different widget with value %s!', $this->getOption('value'));
     }
 }

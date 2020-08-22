@@ -15,16 +15,13 @@ declare(strict_types=1);
 namespace Sauls\Component\Widget\Widgets;
 
 use Psr\Cache\InvalidArgumentException;
-use Sauls\Component\OptionsResolver\OptionsResolver;
-use Sauls\Component\Widget\Exception\NotAWidgetException;
+use Sauls\Component\Widget\Factory\WidgetFactoryInterface;
 use Sauls\Component\Widget\Named;
 use Sauls\Component\Widget\Widget;
-use Sauls\Component\Widget\WidgetInterface;
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-use function Sauls\Component\Helper\object_ucnp;
 use function sprintf;
 
 class CacheableWidget extends Widget implements Named
@@ -32,10 +29,12 @@ class CacheableWidget extends Widget implements Named
     public static $prefix = 'cw';
     public static $total = 0;
     private CacheInterface $cache;
+    private WidgetFactoryInterface $widgetFactory;
 
-    public function __construct(CacheInterface $cache)
+    public function __construct(CacheInterface $cache, WidgetFactoryInterface $widgetFactory)
     {
         $this->cache = $cache;
+        $this->widgetFactory = $widgetFactory;
     }
 
     /**
@@ -50,19 +49,29 @@ class CacheableWidget extends Widget implements Named
                 function (ItemInterface $item) use ($self) {
                     $item->expiresAfter($self->getOption('ttl'));
 
-                    return (string)$self->getOption('widget');
+                    return $self->resolveContentToCache();
                 }
             ) ?? '';
     }
 
     private function createKey(): string
     {
-        return sprintf(
-            '__%1$s%2$s__%3$s__',
-            $this->getOption('namespace') . self::$prefix,
-            strtolower(object_ucnp($this->getOption('widget'))),
-            $this->getId()
+        return md5(
+            sprintf(
+                '__%1$s%2$s__%3$s__',
+                $this->getOption('namespace') . self::$prefix,
+                $this->getOption('widget.id'),
+                $this->getId()
+            )
         );
+    }
+
+    private function resolveContentToCache(): string
+    {
+        return (string)$this->widgetFactory->create(
+                $this->getOption('widget.id') ?? '',
+                $this->getOption('widget.options') ?? []
+            ) ?? '';
     }
 
     public function getName(): string
@@ -80,30 +89,18 @@ class CacheableWidget extends Widget implements Named
                     'ttl',
                 ]
             )
-            ->setRequired(['widget'])
-            ->addAllowedTypes('widget', ['object'])
+            ->addAllowedTypes('widget', ['array'])
             ->addAllowedTypes('namespace', ['string'])
             ->addAllowedTypes('ttl', ['int'])
             ->setDefaults(
                 [
                     'namespace' => '__widget__',
                     'ttl' => 3600,
+                    'widget' => [
+                        'id' => '',
+                        'options' => [],
+                    ],
                 ]
-            )
-            ->setNormalizer(
-                'widget',
-                function (Options $options, $value) {
-                    if (!$value instanceof WidgetInterface) {
-                        throw new NotAWidgetException(
-                            sprintf(
-                                'Given object must implement %1$s interface',
-                                WidgetInterface::class
-                            )
-                        );
-                    }
-
-                    return $value;
-                }
             );
     }
 }

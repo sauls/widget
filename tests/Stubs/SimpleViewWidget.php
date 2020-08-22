@@ -13,7 +13,7 @@
 namespace Sauls\Component\Widget\Stubs;
 
 use Sauls\Component\Widget\ViewWidget;
-use Sauls\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SimpleViewWidget extends ViewWidget
 {
@@ -24,13 +24,15 @@ class SimpleViewWidget extends ViewWidget
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'viewFile' => 'This is a simple view widget. Hello my name is {name}',
-            'viewData' => [
-                'name' => 'noname',
-                'place' => 'noplace',
-            ],
-        ]);
+        $resolver->setDefaults(
+            [
+                'viewFile' => 'This is a simple view widget. Hello my name is {name}',
+                'viewData' => [
+                    'name' => 'noname',
+                    'place' => 'noplace',
+                ],
+            ]
+        );
     }
 
     protected function process(): array

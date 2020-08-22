@@ -12,10 +12,9 @@
 
 namespace Sauls\Component\Widget;
 
-use function Sauls\Component\Helper\define_object;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Sauls\Component\Collection\ArrayCollection;
 use Sauls\Component\Collection\Collection;
-use Sauls\Component\OptionsResolver\OptionsResolver;
 
 abstract class Widget implements WidgetInterface
 {

@@ -12,8 +12,9 @@
 
 namespace Sauls\Component\Widget;
 
-use Sauls\Component\OptionsResolver\OptionsResolver;
 use Sauls\Component\Widget\View\Traits\ViewAwareTrait;
+
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use function Sauls\Component\Helper\array_merge;
 

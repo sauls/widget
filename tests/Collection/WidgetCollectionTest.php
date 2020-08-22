@@ -13,6 +13,7 @@
 namespace Sauls\Component\Widget\Collection;
 
 use Sauls\Component\Widget\Exception\CollectionItemNotFoundException;
+use Sauls\Component\Widget\Factory\WidgetFactory;
 use Sauls\Component\Widget\Stubs\ConfigurableWidget;
 use Sauls\Component\Widget\Stubs\DifferentNamedWidget;
 use Sauls\Component\Widget\Stubs\DummyWidget;
@@ -88,10 +89,13 @@ class WidgetCollectionTest extends CollectionTestCase
     {
         $widgetCollection = $this->createWidgetCollection(
             [
-                new CacheableWidget(new ArrayAdapter()),
+                new CacheableWidget(
+                    new ArrayAdapter(),
+                    new WidgetFactory($this->createWidgetCollection(), $this->createViewCollection())
+                ),
             ]
         );
 
-        $this->assertInstanceOf(CacheableWidget::class,  $widgetCollection->get('cacheable_widget'));
+        $this->assertInstanceOf(CacheableWidget::class, $widgetCollection->get('cacheable_widget'));
     }
 }
